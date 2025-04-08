@@ -1,0 +1,408 @@
+/* --- CSS Variables (Theme & Layout) --- */
+:root {
+    /* Colors - Abstract & Minimal (Example: Dark Theme) */
+    --color-background: #121212; /* Very dark grey */
+    --color-text: #e0e0e0;      /* Light grey */
+    --color-accent: #6f42c1;   /* A muted purple or teal works well */
+    --color-subtle: #333;       /* Subtle borders or backgrounds */
+    --color-highlight: #fff;     /* For subtle hover effects */
+
+    /* Typography */
+    --font-primary: 'Inter', sans-serif;
+    --font-secondary: 'Space Grotesk', sans-serif; /* More distinct font for headings */
+    --font-size-base: 16px;
+    --line-height-base: 1.6;
+
+    /* Layout */
+    --spacing-unit: 1rem; /* Base spacing unit (e.g., 16px) */
+    --content-max-width: 1100px;
+    --content-narrow-width: 700px;
+
+    /* Animation */
+    --transition-speed: 0.4s;
+    --animation-delay: 0.2s;
+}
+
+/* --- Basic Reset & Defaults --- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: var(--font-size-base);
+    scroll-behavior: smooth; /* Enable smooth scrolling for anchor links */
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: var(--color-accent) var(--color-subtle); /* Firefox */
+}
+
+/* --- Custom Scrollbar (Webkit) --- */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--color-subtle);
+}
+::-webkit-scrollbar-thumb {
+    background-color: var(--color-accent);
+    border-radius: 4px;
+    border: 2px solid var(--color-subtle);
+}
+
+body {
+    font-family: var(--font-primary);
+    color: var(--color-text);
+    background-color: var(--color-background);
+    line-height: var(--line-height-base);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    position: relative; /* Needed for background element positioning */
+}
+
+/* --- Subtle Background Gradient/Element --- */
+.background-gradient {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Place it behind all content */
+    /* Example: Subtle radial gradient */
+    background: radial-gradient(ellipse at top left, rgba(111, 66, 193, 0.1), transparent 60%),
+                radial-gradient(ellipse at bottom right, rgba(111, 66, 193, 0.1), transparent 70%);
+    /* Add animation for more abstract feel if desired */
+    /* animation: subtle-pulse 15s infinite alternate ease-in-out; */
+}
+
+/* Optional animation for background */
+@keyframes subtle-pulse {
+    from { opacity: 0.7; transform: scale(1); }
+    to { opacity: 1; transform: scale(1.05); }
+}
+
+
+/* --- Global Elements --- */
+h1, h2, h3 {
+    font-family: var(--font-secondary);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: calc(var(--spacing-unit) * 1.5);
+    color: var(--color-highlight); /* Make headings slightly brighter */
+}
+
+h1 {
+    font-size: clamp(3rem, 8vw, 6rem); /* Responsive font size */
+}
+
+h2.section-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    margin-bottom: calc(var(--spacing-unit) * 3);
+    text-align: center; /* Center section titles */
+    position: relative; /* For potential ::after element styling */
+    padding-bottom: var(--spacing-unit);
+}
+
+/* Optional: Add subtle line under section titles */
+h2.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 2px;
+    background-color: var(--color-accent);
+    opacity: 0.6;
+}
+
+
+p {
+    margin-bottom: var(--spacing-unit);
+    max-width: 65ch; /* Improve readability */
+}
+
+a {
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: color var(--transition-speed) ease, opacity var(--transition-speed) ease;
+}
+
+a:hover, a:focus {
+    color: var(--color-highlight);
+    opacity: 0.8;
+}
+
+/* --- Layout Helpers --- */
+.section {
+    min-height: 80vh; /* Give sections space, hero is taller */
+    padding: calc(var(--spacing-unit) * 6) calc(var(--spacing-unit) * 2);
+    display: flex;
+    align-items: center; /* Vertically center content */
+    justify-content: center; /* Horizontally center content */
+    position: relative; /* For potential pseudo-elements or positioning inside */
+    overflow: hidden; /* Ensure reveals don't cause overflow */
+}
+
+.content-wrapper {
+    width: 100%;
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    text-align: center; /* Default alignment for wrappers */
+}
+
+.content-wrapper.narrow {
+    max-width: var(--content-narrow-width);
+}
+
+/* --- Hero Section --- */
+.hero-section {
+    min-height: 100vh; /* Full viewport height */
+    display: flex;
+    flex-direction: column; /* Stack content vertically */
+    justify-content: center;
+    text-align: center;
+    position: relative; /* Needed for scroll indicator positioning */
+}
+
+.hero-section h1 {
+    margin-bottom: var(--spacing-unit);
+    color: var(--color-highlight);
+}
+
+.hero-section .subtitle {
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    color: var(--color-text);
+    opacity: 0.8;
+    margin-bottom: calc(var(--spacing-unit) * 3);
+    font-weight: 300;
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: calc(var(--spacing-unit) * 3);
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--color-text);
+    opacity: 0.7;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.9rem;
+    transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease;
+}
+
+.scroll-indicator span {
+    margin-bottom: calc(var(--spacing-unit) * 0.5);
+}
+
+.scroll-indicator svg {
+    width: 24px;
+    height: 24px;
+    animation: bounce 2s infinite ease-in-out;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+}
+
+.scroll-indicator:hover {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.05); /* Slight scale on hover */
+    color: var(--color-highlight);
+}
+
+/* --- About Section --- */
+.about-section p {
+    font-size: 1.1rem;
+    margin-left: auto; /* Center paragraph text within narrow wrapper */
+    margin-right: auto;
+}
+
+/* --- Work Section --- */
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+    gap: calc(var(--spacing-unit) * 3);
+    margin-top: calc(var(--spacing-unit) * 4);
+}
+
+.project-item {
+    background-color: rgba(255, 255, 255, 0.03); /* Very subtle background */
+    border: 1px solid var(--color-subtle);
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: left;
+    transition: transform var(--transition-speed) ease,
+                box-shadow var(--transition-speed) ease,
+                border-color var(--transition-speed) ease;
+    display: block; /* Make the anchor a block element */
+    position: relative; /* For positioning info */
+}
+
+.project-item:hover, .project-item:focus {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    border-color: var(--color-accent);
+    color: var(--color-text); /* Ensure text color doesn't change link default */
+    opacity: 1; /* Override link hover opacity */
+}
+
+.project-visual {
+    height: 250px; /* Fixed height for visual area */
+    background-color: var(--color-subtle); /* Fallback color */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    /* Abstract Shapes - Example using gradients */
+}
+
+/* Unique abstract patterns for each project */
+.abstract-shape-1 {
+    background: linear-gradient(45deg, var(--color-accent) 0%, var(--color-subtle) 70%),
+                radial-gradient(circle at top left, rgba(255,255,255,0.1) 0%, transparent 50%);
+}
+.abstract-shape-2 {
+     background: linear-gradient(-45deg, var(--color-accent) 0%, var(--color-subtle) 70%),
+                radial-gradient(circle at bottom right, rgba(255,255,255,0.1) 0%, transparent 50%);
+    filter: hue-rotate(45deg); /* Slight variation */
+}
+.abstract-shape-3 {
+     background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-subtle) 70%),
+                radial-gradient(ellipse at center, rgba(255,255,255,0.1) 0%, transparent 50%);
+    filter: saturate(1.5); /* Slight variation */
+}
+
+/* Add pseudo-elements for more complex abstract shapes if needed */
+.project-visual::before {
+   /* content: ''; position: absolute; ... */
+}
+
+.project-info {
+    padding: calc(var(--spacing-unit) * 1.5);
+}
+
+.project-info h3 {
+    font-size: 1.3rem;
+    margin-bottom: calc(var(--spacing-unit) * 0.5);
+    color: var(--color-highlight);
+}
+
+.project-info p {
+    font-size: 0.9rem;
+    color: var(--color-text);
+    opacity: 0.8;
+    margin-bottom: 0;
+}
+
+
+/* --- Contact Section --- */
+.contact-links {
+    margin-top: calc(var(--spacing-unit) * 3);
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    justify-content: center;
+    gap: calc(var(--spacing-unit) * 2);
+}
+
+.contact-links a {
+    font-size: 1.1rem;
+    padding: calc(var(--spacing-unit) * 0.5) calc(var(--spacing-unit) * 1.5);
+    border: 1px solid var(--color-subtle);
+    border-radius: 4px;
+    transition: background-color var(--transition-speed) ease,
+                border-color var(--transition-speed) ease,
+                color var(--transition-speed) ease;
+}
+
+.contact-links a:hover, .contact-links a:focus {
+    background-color: rgba(111, 66, 193, 0.1); /* Use accent color with alpha */
+    border-color: var(--color-accent);
+    color: var(--color-highlight);
+}
+
+
+/* --- Footer --- */
+.site-footer {
+    text-align: center;
+    padding: calc(var(--spacing-unit) * 3) calc(var(--spacing-unit) * 2);
+    margin-top: calc(var(--spacing-unit) * 4);
+    border-top: 1px solid var(--color-subtle);
+    font-size: 0.9rem;
+    color: var(--color-text);
+    opacity: 0.6;
+}
+
+/* --- Reveal Animations --- */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), /* Ease out back */
+                transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Stagger reveal delays */
+.reveal-delay-1 { transition-delay: var(--animation-delay); }
+.reveal-delay-2 { transition-delay: calc(var(--animation-delay) * 2); }
+.reveal-delay-3 { transition-delay: calc(var(--animation-delay) * 3); }
+/* Add more delays if needed */
+
+
+/* --- Media Queries for Responsiveness --- */
+@media (max-width: 768px) {
+    :root {
+        --font-size-base: 15px;
+        --spacing-unit: 0.8rem;
+    }
+
+    .section {
+        padding: calc(var(--spacing-unit) * 4) var(--spacing-unit);
+    }
+
+    h1 { font-size: 2.5rem; }
+    h2.section-title { font-size: 1.8rem; }
+
+    .project-grid {
+        grid-template-columns: 1fr; /* Stack projects on smaller screens */
+        gap: calc(var(--spacing-unit) * 2);
+    }
+
+    .contact-links {
+        gap: var(--spacing-unit);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Disable animations and transitions if user prefers */
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+  }
+  .scroll-indicator svg {
+      animation: none;
+  }
+}
