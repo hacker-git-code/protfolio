@@ -2,9 +2,169 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>[ SYSTEM_PROFILE ]</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;700&display=swap');
+        
+        :root {
+            --bg-color: #000000;
+            --text-color: #FFFFFF;
+            --border-color: #FFFFFF;
+            --secondary-text: #CCCCCC;
+        }
+        
+        body, html {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Roboto Mono', monospace;
+            font-size: 16px;
+            line-height: 1.6;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        * {
+            box-sizing: border-box;
+            scrollbar-width: thin;
+            scrollbar-color: var(--text-color) var(--bg-color);
+        }
+        *::selection {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+        }
+        #terminal {
+            width: 100%;
+            max-width: 900px;
+            margin: 20px auto;
+            border: 2px solid var(--border-color);
+            background-color: var(--bg-color);
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(255,255,255,0.2);
+        }
+        .terminal-header {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            padding: 5px 10px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .terminal-content {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .section {
+            margin-bottom: 20px;
+            border-left: 3px solid var(--border-color);
+            padding-left: 10px;
+        }
+        .command {
+            color: var(--secondary-text);
+            margin-right: 10px;
+        }
+        .output {
+            color: var(--text-color);
+        }
+        #contact-form input,
+        #contact-form textarea {
+            width: 100%;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            margin-bottom: 10px;
+            font-family: 'Roboto Mono', monospace;
+            transition: all 0.3s ease;
+        }
+        #contact-form input:focus,
+        #contact-form textarea:focus {
+            outline: none;
+            box-shadow: 0 0 5px var(--border-color);
+        }
+        #submit-btn {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 10px 15px;
+            cursor: pointer;
+            font-family: 'Roboto Mono', monospace;
+            transition: all 0.3s ease;
+        }
+        #submit-btn:hover {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+        }
+        .link {
+            color: var(--secondary-text);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .link:hover {
+            color: var(--text-color);
+            text-decoration: underline;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: var(--bg-color);
+            border: 2px solid var(--border-color);
+            padding: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80%;
+            overflow-y: auto;
+        }
+        .modal-close {
+            float: right;
+            cursor: pointer;
+            font-size: 20px;
+        }
+        #project-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        #project-list li {
+            border: 1px solid var(--border-color);
+            margin-bottom: 10px;
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #project-list li:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        #console-output {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            margin-top: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .skill-meter {
+            width: 100%;
+            background-color: rgba(255,255,255,0.1);
+            margin-top: 5px;
+        }
+        .skill-meter-fill {
+            height: 5px;
+            background-color: var(--text-color);
+        }
+
+                @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;700&display=swap');
         
         :root {
             --bg-color: #000000;
@@ -125,7 +285,7 @@
     </style>
 </head>
 <body>
-    <div id="loader">
+      <div id="loader">
         <div id="loader-text">INITIALIZING SYSTEM PROFILE</div>
         <div id="loader-progress">
             <div id="loader-progress-bar"></div>
@@ -134,57 +294,208 @@
 
     <div class="matrix-rain"></div>
 
-    <div id="main-content">
-        <div id="terminal">
-            <div class="terminal-header">
-                <span>SYSTEM_PROFILE</span>
-                <span id="system-time"></span>
-            </div>
-            <div class="terminal-content">
-                <div class="section" style="display: flex; align-items: center;">
-                    <div style="flex: 1;">
-                        <span class="command">system@profile:~$ whoami</span>
-                        <span class="output">developer</span>
-                    </div>
-                    <div style="flex: 0 0 150px; margin-left: 20px;">
-                        <div id="profile-pic" style="
-                            width: 150px;
-                            height: 150px;
-                            border: 2px solid var(--border-color);
-                            background: linear-gradient(135deg, 
-                                rgba(255,255,255,0.1) 0%, 
-                                rgba(255,255,255,0.05) 100%);
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                            overflow: hidden;
-                            position: relative;
-                        ">
-                            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%; fill: rgba(255,255,255,0.1);">
-                                <defs>
-                                    <pattern id="gridPattern" width="10" height="10" patternUnits="userSpaceOnUse">
-                                        <path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
-                                    </pattern>
-                                </defs>
-                                <rect width="100" height="100" fill="url(#gridPattern)"/>
-                                <text x="50" y="50" text-anchor="middle" dy=".3em" font-family="Roboto Mono, monospace" font-size="12" fill="rgba(255,255,255,0.5)">
-                                    SYSTEM
-                                </text>
-                                <text x="50" y="65" text-anchor="middle" dy=".3em" font-family="Roboto Mono, monospace" font-size="12" fill="rgba(255,255,255,0.5)">
-                                    PROFILE
-                                </text>
-                            </svg>
-                        </div>
+    <div id="terminal">
+        <div class="terminal-header">
+            <span>SYSTEM_PROFILE</span>
+            <span id="system-time"></span>
+        </div>
+        <div class="terminal-content">
+            <div class="section" style="display: flex; align-items: center;">
+                <div style="flex: 1;">
+                    <span class="command">system@profile:~$ whoami</span>
+                    <span class="output">developer</span>
+                </div>
+                <div style="flex: 0 0 150px; margin-left: 20px;">
+                    <div style="
+                        width: 150px;
+                        height: 150px;
+                        border: 2px solid var(--border-color);
+                        background: linear-gradient(135deg, 
+                            rgba(255,255,255,0.1) 0%, 
+                            rgba(255,255,255,0.05) 100%);
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        overflow: hidden;
+                    ">
+                        <img id="profile-pic" src="https://pbs.twimg.com/profile_images/1920894970581360640/-_WlZrJJ_400x400.jpg" alt="Profile Picture" style="width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); border: none; background: none;" />
                     </div>
                 </div>
+            </div>
 
-                <!-- Rest of the previous HTML content remains the same -->
+            <div class="section">
+                <span class="command">system@profile:~$ cat SKILLS</span>
+                <div class="output">
+[TECHNICAL SKILLS]
+- Web Development
+    <div class="skill-meter"><div class="skill-meter-fill" style="width: 90%;"></div></div>
+- System Architecture
+    <div class="skill-meter"><div class="skill-meter-fill" style="width: 80%;"></div></div>
+- Network Solutions
+    <div class="skill-meter"><div class="skill-meter-fill" style="width: 75%;"></div></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <span class="command">system@profile:~$ list_projects</span>
+                <div class="output">
+ACTIVE PROJECTS:
+    > <a href="#" id="show-projects" class="link">VIEW PROJECT REPOSITORY</a>
+                </div>
+            </div>
+
+            <div class="section">
+                <span class="command">system@profile:~$ diagnostic_tools</span>
+                <div class="output">
+SYSTEM DIAGNOSTIC:
+    > <button id="run-diagnostic" class="submit-btn">RUN SYSTEM CHECK</button>
+    <div id="console-output"></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <span class="command">system@profile:~$ contact_methods</span>
+                <form id="contact-form" class="output">
+                    <input type="text" placeholder="NAME" required>
+                    <input type="email" placeholder="EMAIL" required>
+                    <textarea placeholder="MESSAGE" rows="5" required></textarea>
+                    <button id="submit-btn" type="submit">SEND TRANSMISSION</button>
+                </form>
+            </div>
+
+            <div class="section">
+                <span class="command">system@profile:~$ show NETWORK_LINKS</span>
+                <div class="output">
+NETWORK CONNECTIONS:
+    > <a href="#" class="link">PORTFOLIO</a>
+    > <a href="#" class="link">GITHUB</a>
+    > <a href="#" class="link">LINKEDIN</a>
+                </div>
             </div>
         </div>
-
-        <!-- Projects Modal and other previous content -->
     </div>
 
+    <!-- Projects Modal -->
+    <div id="projects-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h2>PROJECT REPOSITORY</h2>
+            <ul id="project-list"></ul>
+        </div>
+    </div>
+
+    <script>
+        // System Time
+        function updateSystemTime() {
+            const timeElement = document.getElementById('system-time');
+            timeElement.textContent = new Date().toLocaleTimeString('en-US', { hour12: false });
+        }
+        setInterval(updateSystemTime, 1000);
+        updateSystemTime();
+
+        // Contact Form
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = this.querySelector('input[type="text"]').value;
+            const email = this.querySelector('input[type="email"]').value;
+            const message = this.querySelector('textarea').value;
+            
+            // Simulate message sending
+            console.log('Transmission Details:', { name, email, message });
+            alert('TRANSMISSION RECEIVED: MESSAGE QUEUED');
+            this.reset();
+        });
+
+        // Projects Modal
+        const projectsModal = document.getElementById('projects-modal');
+        const showProjectsBtn = document.getElementById('show-projects');
+        const closeModalBtn = document.querySelector('.modal-close');
+        const projectList = document.getElementById('project-list');
+
+        // Sample project data
+        const projects = [
+            {
+                name: "Secure Network Analyzer",
+                description: "Advanced network monitoring and security assessment tool.",
+                technologies: ["Python", "Network Protocols", "Security"]
+            },
+            {
+                name: "Cryptographic Communication Platform",
+                description: "End-to-end encrypted messaging system with advanced security features.",
+                technologies: ["JavaScript", "WebRTC", "Encryption"]
+            },
+            {
+                name: "Distributed Computing Framework",
+                description: "Scalable distributed computing solution for complex computational tasks.",
+                technologies: ["Golang", "Microservices", "Cloud Infrastructure"]
+            }
+        ];
+
+        // Populate project list
+        projects.forEach(project => {
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <strong>${project.name}</strong>
+                <p>${project.description}</p>
+                <small>Technologies: ${project.technologies.join(', ')}</small>
+            `;
+            li.addEventListener('click', () => {
+                alert(`PROJECT DETAILS:\n${JSON.stringify(project, null, 2)}`);
+            });
+            projectList.appendChild(li);
+        });
+
+        // Modal functionality
+        showProjectsBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            projectsModal.style.display = 'flex';
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            projectsModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === projectsModal) {
+                projectsModal.style.display = 'none';
+            }
+        });
+
+        // System Diagnostic Tool
+        const diagnosticBtn = document.getElementById('run-diagnostic');
+        const consoleOutput = document.getElementById('console-output');
+
+        diagnosticBtn.addEventListener('click', () => {
+            const diagnosticChecks = [
+                "Checking system integrity...",
+                "Scanning network connections...",
+                "Verifying security protocols...",
+                "Running performance metrics..."
+            ];
+
+            consoleOutput.innerHTML = ''; // Clear previous output
+            
+            diagnosticChecks.forEach((check, index) => {
+                setTimeout(() => {
+                    const resultLine = document.createElement('div');
+                    resultLine.textContent = `[${new Date().toLocaleTimeString()}] ${check}`;
+                    consoleOutput.appendChild(resultLine);
+                    consoleOutput.scrollTop = consoleOutput.scrollHeight;
+
+                    // Simulate final result
+                    if (index === diagnosticChecks.length - 1) {
+                        setTimeout(() => {
+                            const finalResult = document.createElement('div');
+                            finalResult.textContent = '[SYSTEM STATUS]: OPERATIONAL ✓';
+                            finalResult.style.color = 'lime';
+                            consoleOutput.appendChild(finalResult);
+                            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+                        }, 1000);
+                    }
+                }, (index + 1) * 1000);
+            });
+        });
+    </script>
     <script>
         // Loading Animation
         function generateMatrixRain() {
