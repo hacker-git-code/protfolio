@@ -14,7 +14,7 @@
             --secondary-text: #CCCCCC;
         }
         
-/*         body, html {
+     body, html {
             margin: 0;
             padding: 0;
             background-color: var(--bg-color);
@@ -24,32 +24,9 @@
             line-height: 1.6;
             -webkit-user-select: none;
             user-select: none;
-        } */
+        } 
 
-        body, html {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    /* Dark radial gradient */
-    background: radial-gradient(ellipse at 60% 40%, #23272e 0%, #181b21 100%);
-    color: var(--text-color);
-    font-family: 'Roboto Mono', monospace;
-    overflow-x: hidden;
-    position: relative;
-}
 
-/* Grainy noise overlay using a pseudo-element */
-body::before {
-    content: "";
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    pointer-events: none;
-    z-index: 0;
-    /* Tiny PNG base64 noise texture, seamless and lightweight */
-/*     background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg=='); */
-    opacity: 0.22; /* Adjust for more/less grain */
-    mix-blend-mode: screen; /* Makes the noise blend nicely */
-}
         * {
             box-sizing: border-box;
             scrollbar-width: thin;
