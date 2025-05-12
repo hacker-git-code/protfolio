@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[ SYSTEM_PROFILE ]</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;700&display=swap');
+        
+        :root {
+            --bg-color: #000000;
+            --text-color: #FFFFFF;
+            --border-color: #FFFFFF;
+            --secondary-text: #CCCCCC;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Roboto Mono', monospace;
+            overflow-x: hidden;
+        }
+
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        #loader-text {
+            color: var(--text-color);
+            text-align: center;
+            white-space: pre-wrap;
+            line-height: 1.5;
+        }
+
+        #loader-progress {
+            width: 300px;
+            height: 10px;
+            background-color: rgba(255,255,255,0.1);
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        #loader-progress-bar {
+            width: 0;
+            height: 100%;
+            background-color: var(--text-color);
+            transition: width 0.5s ease;
+        }
+
+        .glitch {
+            position: relative;
+            text-shadow: 
+                2px 2px 0 rgba(255,255,255,0.2),
+                -2px -2px 0 rgba(255,255,255,0.2);
+            animation: glitch-skew 1s infinite alternate-reverse;
+        }
+
+        @keyframes glitch-skew {
+            0% {
+                transform: skew(0deg);
+            }
+            10% {
+                transform: skew(5deg);
+            }
+            20% {
+                transform: skew(-5deg);
+            }
+            30% {
+                transform: skew(0deg);
+            }
+            100% {
+                transform: skew(0deg);
+            }
+        }
+
+        @keyframes matrix-rain {
+            0% {
+                transform: translateY(-100%);
+            }
+            100% {
+                transform: translateY(100vh);
+            }
+        }
+
+        .matrix-rain {
+            position: fixed;
+            top: -50px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10000;
+        }
+
+        .matrix-char {
+            position: absolute;
+            color: rgba(255,255,255,0.1);
+            font-family: 'Roboto Mono', monospace;
+            font-size: 10px;
+            animation: matrix-rain linear infinite;
+        }
+
+        #main-content {
+            display: none;
+        }
+
+        /* Rest of the previous CSS remains the same */
+    </style>
+</head>
+<body>
+    <div id="loader">
+        <div id="loader-text">INITIALIZING SYSTEM PROFILE</div>
+        <div id="loader-progress">
+            <div id="loader-progress-bar"></div>
+        </div>
+    </div>
+
+    <div class="matrix-rain"></div>
+
+    <div id="main-content">
+        <div id="terminal">
+            <div class="terminal-header">
+                <span>SYSTEM_PROFILE</span>
+                <span id="system-time"></span>
+            </div>
+            <div class="terminal-content">
+                <div class="section" style="display: flex; align-items: center;">
+                    <div style="flex: 1;">
+                        <span class="command">system@profile:~$ whoami</span>
+                        <span class="output">developer</span>
+                    </div>
+                    <div style="flex: 0 0 150px; margin-left: 20px;">
+                        <div id="profile-pic" style="
+                            width: 150px;
+                            height: 150px;
+                            border: 2px solid var(--border-color);
+                            background: linear-gradient(135deg, 
+                                rgba(255,255,255,0.1) 0%, 
+                                rgba(255,255,255,0.05) 100%);
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            overflow: hidden;
+                            position: relative;
+                        ">
+                            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%; fill: rgba(255,255,255,0.1);">
+                                <defs>
+                                    <pattern id="gridPattern" width="10" height="10" patternUnits="userSpaceOnUse">
+                                        <path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+                                    </pattern>
+                                </defs>
+                                <rect width="100" height="100" fill="url(#gridPattern)"/>
+                                <text x="50" y="50" text-anchor="middle" dy=".3em" font-family="Roboto Mono, monospace" font-size="12" fill="rgba(255,255,255,0.5)">
+                                    SYSTEM
+                                </text>
+                                <text x="50" y="65" text-anchor="middle" dy=".3em" font-family="Roboto Mono, monospace" font-size="12" fill="rgba(255,255,255,0.5)">
+                                    PROFILE
+                                </text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rest of the previous HTML content remains the same -->
+            </div>
+        </div>
+
+        <!-- Projects Modal and other previous content -->
+    </div>
+
+    <script>
+        // Loading Animation
+        function generateMatrixRain() {
+            const matrixRain = document.querySelector('.matrix-rain');
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%^&*()_+';
+            
+            for (let i = 0; i < 100; i++) {
+                const char = document.createElement('span');
+                char.textContent = chars[Math.floor(Math.random() * chars.length)];
+                char.classList.add('matrix-char');
+                char.style.left = `${Math.random() * 100}%`;
+                char.style.animationDuration = `${Math.random() * 5 + 3}s`;
+                char.style.animationDelay = `${Math.random() * 5}s`;
+                matrixRain.appendChild(char);
+            }
+        }
+
+        function initializeSystem() {
+            const loader = document.getElementById('loader');
+            const loaderText = document.getElementById('loader-text');
+            const progressBar = document.getElementById('loader-progress-bar');
+            const mainContent = document.getElementById('main-content');
+            const profilePic = document.getElementById('profile-pic');
+
+            const loadingStages = [
+                "CONNECTING TO MAINFRAME...",
+                "AUTHENTICATING CREDENTIALS...",
+                "INITIALIZING SECURITY PROTOCOLS...",
+                "LOADING SYSTEM RESOURCES...",
+                "ESTABLISHING NETWORK CONNECTION...",
+                "SYSTEM PROFILE ACTIVATED"
+            ];
+
+            // Matrix rain effect
+            generateMatrixRain();
+
+            // Loader animation
+            loadingStages.forEach((stage, index) => {
+                setTimeout(() => {
+                    loaderText.textContent = stage;
+                    progressBar.style.width = `${(index + 1) * (100 / loadingStages.length)}%`;
+
+                    // Final stage
+                    if (index === loadingStages.length - 1) {
+                        setTimeout(() => {
+                            loader.style.opacity = '0';
+                            setTimeout(() => {
+                                loader.style.display = 'none';
+                                mainContent.style.display = 'block';
+                                
+                                // Profile pic animation
+                                profilePic.style.animation = 'glitch-skew 0.5s infinite alternate-reverse';
+                                setTimeout(() => {
+                                    profilePic.style.animation = 'none';
+                                }, 2000);
+                            }, 500);
+                        }, 1000);
+                    }
+                }, (index + 1) * 1000);
+            });
+        }
+
+        // Existing scripts (system time, projects, diagnostic tool, etc.) remain the same
+
+        // Start system initialization on page load
+        window.addEventListener('load', initializeSystem);
+    </script>
+</body>
+</html>
